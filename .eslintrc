@@ -1,0 +1,11 @@
+{
+  "env": {
+    "browser": true,
+    "node" : true,
+    "mocha" : true,
+    "jquery": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 6
+  }
+}

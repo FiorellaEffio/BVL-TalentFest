@@ -56,12 +56,18 @@
                 <button id="to3" class="btn btn-outline-warning mt-3">Siguiente</button>
             </div>
             <div id="level3" class="hiden">
-                <h2>Pez bebé</h2>
-                <h2>Aquí ya puedes empezar a comprar acciones</h2>
-                <h3>Estas son las acciones disponibles</h3>
-                <div id="stock"></div>
-                <h3>Aqui está el resumen de tus acciones</h3>
-                <div id="myStock"></div>
+                <h2>Eres un pez bebé</h2>
+                <p>Click para ver las acciones disponibles</p>
+                <button data-toggle="collapse" data-target="#demo">Acciones Disponibles</button>
+                <div id="demo" class="collapse">
+                    <ul id="stock" class="list-group"></ul>
+                </div>
+                <hr>
+                <button data-toggle="collapse" data-target="#demo1">Resumen de mis acciones</button>
+                <div id="demo1" class="collapse">
+                    <ul id="myStock" class="list-group"></ul>
+                </div>
+                <br>
                 Monto disponible:
                 <span id="monto">5000</span>
                 Inversión realizada:

@@ -97,7 +97,7 @@ const switchLevel = () => {
               break;
             case 3:
               //Sentencias ejecutadas cuando el resultado de expresion coincide con valorN
-              console.log('estas en el nivel 2')
+              console.log('estas en el nivel 3')
               level0.setAttribute('class', 'hiden')
               level1.setAttribute('class','hiden')
               level2.setAttribute('class', 'hiden')
@@ -124,16 +124,21 @@ firebase.database().ref('sectores').on('value',(snapshot)=> {
     stocksData = JSON.parse(stocksData);
     sectorsName = Object.keys(stocksData);
     sectorsName.forEach(sector => {
-      stocks.innerHTML += `<h1>${sector}</h1>`;
+      let sectorName = sector.toUpperCase();
+      stocks.innerHTML += `<li class="list-group-item d-flex justify-content-between align-items-center"><h4>SECTOR ${sectorName}</h4></li>`;
       companiesName = Object.keys(stocksData[sector])
       companiesName.forEach(company => {
-          console.log(typeof(sector))
-          stocks.innerHTML += `<p>${company}</p>`;
-          stocks.innerHTML += `<li>${stocksData[sector][company].vfundamental}</li>`;
-          stocks.innerHTML += `<li>${stocksData[sector][company].vmercado}</li>`;
-          stocks.innerHTML += `<li>${stocksData[sector][company].cantidad}</li>
-          <input type="text" id="${sector}${company}"/>
-          <button onclick="buyStock('${sector}','${company}', '${sector}'+'${company}', '${stocksData[sector][company].vmercado}')">Compra</button>`;
+          stocks.innerHTML += `<li class="list-group-item d-flex justify-content-between align-items-center">
+              <h6>${company}</h6> 
+              <div>
+              <span class="badge badge-warning badge-pill">V.F:${stocksData[sector][company].vfundamental}</span>
+              <span class="badge badge-primary badge-pill">V.M:${stocksData[sector][company].vmercado}</span>
+              <span class="badge badge-primary badge-pill">Cantidad:${stocksData[sector][company].cantidad}</span>
+              <input type="text" id="${sector}${company}"/>
+          <button onclick="buyStock('${sector}','${company}', '${sector}'+'${company}', '${stocksData[sector][company].vmercado}')">Compra</button>
+              </div>
+          </li>
+          `;
       });
     }); 
     chargeMyStock();
@@ -150,8 +155,10 @@ const chargeMyStock = () => {
             let resumen = 0;
             stocksUID.forEach(stockUID => {
                 console.log(myStockData[stockUID])
-                myStock.innerHTML += `<p>Empresa: ${myStockData[stockUID].company}</p>
-                <p>Cantidad: ${myStockData[stockUID].cantidad}</p>
+                myStock.innerHTML += `<li class="list-group-item d-flex justify-content-between align-items-center">
+                Empresa: ${myStockData[stockUID].company}
+              <span class="badge badge-primary badge-pill">Cantidad: ${myStockData[stockUID].cantidad}</span>
+              </li>
                 `;
                 let vmercadostock;
                 firebase.database().ref('sectores/'+myStockData[stockUID].sector +'/'+ myStockData[stockUID].company).once('value',(snapa)=> {

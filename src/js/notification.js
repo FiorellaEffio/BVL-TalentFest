@@ -1,7 +1,7 @@
 const myFunction = () => {
     var x = document.getElementById("snackbar");
     x.className = "show";
-    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 4000);
+    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 10000);
 }
 firebase.database().ref('notificaciones/').on('value', (snapshot)=> {
     let notificationData = JSON.stringify(snapshot.val(),null,3);

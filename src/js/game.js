@@ -150,17 +150,16 @@ const chargeMyStock = () => {
                 console.log(stockdata)
                 vmercadostock = stockdata.vmercado
                 resumen += stockdata.vmercado*myStockData[stockUID].cantidad;
-                console.log(resumen)
             })
         });
-        
+        console.log(resumen)
         firebase.database().ref('usuarios/'+userUID).once('value', (snap)=> {
             let userData = JSON.stringify(snap.val(),null,3);
             userData = JSON.parse(userData);
             document.getElementById('monto').innerHTML = userData.monto;
             let inversion = 500000 - parseInt(userData.monto);
             document.getElementById('inversion').innerHTML = inversion;
-            document.getElementById('resumen').innerHTML
+            document.getElementById('resumen').innerHTML = resumen;
         })
     })
 }

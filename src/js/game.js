@@ -117,7 +117,7 @@ const showStocks = () => {
               stocks.innerHTML += `<li>${stocksData[sector][company].vmercado}</li>`;
               stocks.innerHTML += `<li>${stocksData[sector][company].cantidad}</li>
               <input type="text" id="${sector}${company}"/>
-              <button onclick="buyStock('${sector}','${company}', '${sector}'+'${company}')">Compra</button>`;
+              <button onclick="buyStock('${sector}','${company}', '${sector}'+'${company}', '${stocksData[sector][company].vmercado}')">Compra</button>`;
           });
           console.log(companiesName);
 
@@ -125,10 +125,24 @@ const showStocks = () => {
     })
 }
 
-const buyStock = (sector, company, id) => {
+const buyStock = (sector, company, id, vmercado) => {
     console.log(sector);
     console.log(company);
-    console.log(document.getElementById(id).value);
+    let stockCount=(document.getElementById(id).value);
+    let userRef = firebase.database().ref('usuarios/'+userUID);
+    // escribimos en la base de dnicknameatos el nickname y aumentamos el nivel
+    userRef.once('value', (snapshot) => {
+        let userData = JSON.stringify(snapshot.val(),null,3);
+        userData = JSON.parse(userData);
+        let lastMonto = userData.monto;
+        console.log(lastMonto)
+        userRef.update({
+            "monto": lastMonto - stockCount*vmercado,
+            "inversion" : stockCount*vmercado,
+        })
+    })    
+    
+    
     
 
 }

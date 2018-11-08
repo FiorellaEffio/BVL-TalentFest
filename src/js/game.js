@@ -104,8 +104,18 @@ const showStocks = () => {
     let stocks = document.getElementById('stocks');
     stocks.innerHTML = '';
     firebase.database().ref('sectores').on('value',(snapshot)=> {
-        let data = JSON.stringify(snapshot.val(),null,3);
-        data = JSON.parse(data);
-        console.log(data)
+        let stocks = JSON.stringify(snapshot.val(),null,3);
+        stocks = JSON.parse(stocks);
+        sectorsName = Object.keys(stocks);
+        console.log(sectorsName)
+        sectorsName.forEach(sector => {
+          companiesName = Object.keys(stocks[sector])
+          companiesName.forEach(company => {
+              console.log(stocks[sector][company])
+          });
+          console.log(companiesName)
+        });
+        
+        // document.getElementById('stocks').innerHTML= `${data}`
     })
 }

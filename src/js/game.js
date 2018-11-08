@@ -125,9 +125,8 @@ firebase.database().ref('sectores').on('value',(snapshot)=> {
           <input type="text" id="${sector}${company}"/>
           <button onclick="buyStock('${sector}','${company}', '${sector}'+'${company}', '${stocksData[sector][company].vmercado}')">Compra</button>`;
       });
-      console.log(companiesName);
-
     }); 
+    chargeMyStock();
 })
 // mis acciones
 const chargeMyStock = () => {
@@ -138,18 +137,31 @@ const chargeMyStock = () => {
         
         stocksUID = Object.keys(myStockData);
         console.log(stocksUID)
-
+        let resumen = 0;
         stocksUID.forEach(stockUID => {
+            console.log(myStockData[stockUID])
             myStock.innerHTML += `<p>Empresa: ${myStockData[stockUID].company}</p>
             <p>Cantidad: ${myStockData[stockUID].cantidad}</p>
             `;
-            // myStock.innerHTML += `<li>${stocksData[sector][company].vfundamental}</li>`;
-            // stocks.innerHTML += `<li>${stocksData[sector][company].vmercado}</li>`;
-            // stocks.innerHTML += `<li>${stocksData[sector][company].cantidad}</li>
-            // <input type="text" id="${sector}${company}"/>
-            // <button onclick="buyStock('${sector}','${company}', '${sector}'+'${company}', '${stocksData[sector][company].vmercado}')">Compra</button>`;
+            let vmercadostock;
+            firebase.database().ref('sectores/'+myStockData[stockUID].sector +'/'+ myStockData[stockUID].company).once('value',(snapa)=> {
+                let stockdata = JSON.stringify(snapa.val(),null,3);
+                stockdata = JSON.parse(stockdata);
+                console.log(stockdata)
+                vmercadostock = stockdata.vmercado
+                resumen += stockdata.vmercado*myStockData[stockUID].cantidad;
+                console.log(resumen)
+            })
         });
-
+        
+        firebase.database().ref('usuarios/'+userUID).once('value', (snap)=> {
+            let userData = JSON.stringify(snap.val(),null,3);
+            userData = JSON.parse(userData);
+            document.getElementById('monto').innerHTML = userData.monto;
+            let inversion = 500000 - parseInt(userData.monto);
+            document.getElementById('inversion').innerHTML = inversion;
+            document.getElementById('resumen').innerHTML
+        })
     })
 }
 

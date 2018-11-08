@@ -111,13 +111,24 @@ const showStocks = () => {
           stocks.innerHTML += `<h1>${sector}</h1>`;
           companiesName = Object.keys(stocksData[sector])
           companiesName.forEach(company => {
+              console.log(typeof(sector))
               stocks.innerHTML += `<p>${company}</p>`;
-              stocks.innerHTML += `<li>${stocksData[sector][company].cantidad}</li>`;
               stocks.innerHTML += `<li>${stocksData[sector][company].vfundamental}</li>`;
               stocks.innerHTML += `<li>${stocksData[sector][company].vmercado}</li>`;
-
+              stocks.innerHTML += `<li>${stocksData[sector][company].cantidad}</li>
+              <input type="text" id="${sector}${company}"/>
+              <button onclick="buyStock('${sector}','${company}', '${sector}'+'${company}')">Compra</button>`;
           });
-          console.log(companiesName)
+          console.log(companiesName);
+
         }); 
     })
+}
+
+const buyStock = (sector, company, id) => {
+    console.log(sector);
+    console.log(company);
+    console.log(document.getElementById(id).value);
+    
+
 }

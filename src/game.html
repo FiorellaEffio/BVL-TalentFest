@@ -15,35 +15,44 @@
     <h1>BVL - Game</h1>
     <h2 id="username"></h2>
     <p id="userImage"></p>
-    <div id="level0">
-      <h1>Hola soy Leo, y te voy a guiar a lo largo del juego</h1>
-      <p>Todos aqui iniciamos nuestro camino a ser unos gigantes de la inversión con S/.500,000</p>
-      <p>Toma atención a mis consejos para seguir avanzando y convertirte en un tiburón financiero</p>
-      <h3>¿Como te gustaria que te llame?</h3>
-      <input type="text" id="nickname" placeholder="Nickname">
-      <button id="to1">Siguiente</button>
+    <div id="level0" class="hiden">
+        <h1>Hola soy Leo, y te voy a guiar a lo largo del juego</h1>
+        <p>Todos aqui iniciamos nuestro camino a ser unos gigantes de la inversión con S/.500,000</p>
+        <p>Toma atención a mis consejos para seguir avanzando y convertirte en un tiburón financiero</p>
+        <h3>¿Como te gustaria que te llame?</h3>
+        <input type="text" id="nickname" placeholder="Nickname">
+        <button id="to1">Siguiente</button>
     </div>
-    <div id="level1">
-      <h3 id="welcome"></h3>
-      <p>Para nacer en el mundo de la bolsa de valores debes escoger una SAB</p>
-      <p>....Y ¿Qué es una SAB ?</p>
-      <p>Una SAB es......</p>
-      <!-- falta agregar descripcion de la sab -->
-      <p>Ahora que ya sabes que es una SAB, debes elegir la que mejor vaya contigo:</p>
-      <select id="sabOptions" >
+    <div id="level1" class="hiden">
+        <h1>PRIMER NIVEL</h1>
+        <h2>HUEVO</h2>
+        <h3 id="welcome"></h3>
+        <p>Para nacer en el mundo de la bolsa de valores debes escoger una SAB</p>
+        <p>....Y ¿Qué es una SAB ?</p>
+        <p>Una SAB es......</p>
+        <!-- falta agregar descripcion de la sab -->
+        <p>Ahora que ya sabes que es una SAB, debes elegir la que mejor vaya contigo:</p>
+        <select id="sabOptions">
             <option value="credicorp">CREDICORP</option>
             <option value="kallpa">KALLPA</option>
             <option value="btg">BTG Pactual</option>
             <option value="magot">MAGOT</option>
-      </select>
-      <button id="to2">Siguiente</button>
-      
-    </div>
-    <div id="level2">
+        </select>
+        <button id="to2">Siguiente</button>
 
     </div>
-    <div id="level3">
-
+    <div id="level2" class="hiden">
+        <h1>SEGUNDO NIVEL</h1>
+        <h2>LARVA</h2>
+        <h3>¡Sigamos creciendo!</h3>
+        <p>Recuerdas que es un SAB????</p>
+        <button id="op1">opcion 1</button>
+        <button id="op2">opcion 2</button>
+        <button id="op3">opcion 3</button>
+    </div>
+    <div id="level3" class="hiden">
+        <h1>TERCER NIVEL</h1>
+        <h2>Pez bebé</h2>
     </div>
     <script src="https://www.gstatic.com/firebasejs/5.5.7/firebase.js"></script>
     <script>

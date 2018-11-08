@@ -5,3 +5,31 @@
 .show {
     display: block;
 }
+
+nav{
+    background-color: navy !important;
+    color: white
+    
+}
+.moneda{
+    border: none;
+    background-color: gold;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    /* margin: 4px 2px; */
+    border-radius: 100px;
+}
+   
+.container-fluid {
+    background-image: url('../img/fondo_Mesa\ de\ trabajo\ 1.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height: 300vh;
+    width: 100%;
+} 
+input, button{
+    border-radius: 10px;
+    border: 2px solid #B83434;
+    color: black 
+}

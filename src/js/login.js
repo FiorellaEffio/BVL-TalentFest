@@ -21,7 +21,6 @@ profile.on('value', snap => {
     let userData = JSON.stringify(snap.val(),null,3);//tbm funciona un solo parametro
     userData = JSON.parse(userData);
     if(userData == null) {
-    
     var usuario = {
         uid : user.uid,
         monto: 5000,

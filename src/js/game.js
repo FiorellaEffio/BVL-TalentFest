@@ -1,11 +1,9 @@
-const username= document.getElementById('username');
 const userImage= document.getElementById('userImage');
 const database = firebase.database();
 let userUID; 
 window.onload = () =>{
    firebase.auth().onAuthStateChanged((user)=>{
        if(user) {
-           username.innerHTML=`${user.displayName}`;
            userImage.innerHTML=`<img src="${user.photoURL}" width="90px" alt="user" class="profile-photo">`;
        }
        userUID = user.uid;
@@ -61,6 +59,7 @@ const evaluateLevel = (path) => {
 }
 const switchLevel = () => {
     evaluateLevel('usuarios/'+userUID).then(level => {
+        document.getElementById('nivel').innerHTML = level;
         switch (level) {
             case 0:
               //Sentencias ejecutadas cuando el resultado de expresion coincide con valor1
@@ -77,6 +76,11 @@ const switchLevel = () => {
               level1.setAttribute('class','show')
               level2.setAttribute('class', 'hiden')
               level3.setAttribute('class','hiden')
+              firebase.database().ref('usuarios/'+userUID).once('value', (sna)=>{
+                let user = JSON.stringify(sna.val(),null,3);
+                user = JSON.parse(user);
+                document.getElementById('showNickname').innerHTML = user.nickname;
+              })
               break;
             case 2:
               //Sentencias ejecutadas cuando el resultado de expresion coincide con valorN
@@ -85,6 +89,11 @@ const switchLevel = () => {
               level1.setAttribute('class','hiden')
               level2.setAttribute('class', 'show')
               level3.setAttribute('class','hiden')
+              firebase.database().ref('usuarios/'+userUID).once('value', (sna)=>{
+                let user = JSON.stringify(sna.val(),null,3);
+                user = JSON.parse(user);
+                document.getElementById('showNickname').innerHTML = user.nickname;
+              })
               break;
             case 3:
               //Sentencias ejecutadas cuando el resultado de expresion coincide con valorN
@@ -93,7 +102,11 @@ const switchLevel = () => {
               level1.setAttribute('class','hiden')
               level2.setAttribute('class', 'hiden')
               level3.setAttribute('class','show')
-              showStocks();
+              firebase.database().ref('usuarios/'+userUID).once('value', (sna)=>{
+                let user = JSON.stringify(sna.val(),null,3);
+                user = JSON.parse(user);
+                document.getElementById('showNickname').innerHTML = user.nickname;
+              })
               break;
             default:
               //Sentencias_def ejecutadas cuando no ocurre una coincidencia con los anteriores casos
@@ -101,10 +114,7 @@ const switchLevel = () => {
            }
     })
 }
-const showStocks = () => {
-    // stocks.innerHTML = '';
 
-}
 let stocks = document.getElementById('stock');
 let myStock = document.getElementById('myStock');
 // acciones generales
@@ -134,33 +144,34 @@ const chargeMyStock = () => {
         myStock.innerHTML = '';
         let myStockData = JSON.stringify(snapshot.val(),null,3);
         myStockData = JSON.parse(myStockData);
-        
-        stocksUID = Object.keys(myStockData);
-        console.log(stocksUID)
-        let resumen = 0;
-        stocksUID.forEach(stockUID => {
-            console.log(myStockData[stockUID])
-            myStock.innerHTML += `<p>Empresa: ${myStockData[stockUID].company}</p>
-            <p>Cantidad: ${myStockData[stockUID].cantidad}</p>
-            `;
-            let vmercadostock;
-            firebase.database().ref('sectores/'+myStockData[stockUID].sector +'/'+ myStockData[stockUID].company).once('value',(snapa)=> {
-                let stockdata = JSON.stringify(snapa.val(),null,3);
-                stockdata = JSON.parse(stockdata);
-                console.log(stockdata)
-                vmercadostock = stockdata.vmercado
-                resumen += stockdata.vmercado*myStockData[stockUID].cantidad;
+        if(myStockData) {
+            stocksUID = Object.keys(myStockData);
+            console.log(stocksUID)
+            let resumen = 0;
+            stocksUID.forEach(stockUID => {
+                console.log(myStockData[stockUID])
+                myStock.innerHTML += `<p>Empresa: ${myStockData[stockUID].company}</p>
+                <p>Cantidad: ${myStockData[stockUID].cantidad}</p>
+                `;
+                let vmercadostock;
+                firebase.database().ref('sectores/'+myStockData[stockUID].sector +'/'+ myStockData[stockUID].company).once('value',(snapa)=> {
+                    let stockdata = JSON.stringify(snapa.val(),null,3);
+                    stockdata = JSON.parse(stockdata);
+                    console.log(stockdata)
+                    vmercadostock = stockdata.vmercado
+                    resumen += stockdata.vmercado*myStockData[stockUID].cantidad;
+                })
+            });
+            console.log(resumen)
+            firebase.database().ref('usuarios/'+userUID).once('value', (snap)=> {
+                let userData = JSON.stringify(snap.val(),null,3);
+                userData = JSON.parse(userData);
+                document.getElementById('monto').innerHTML = userData.monto;
+                let inversion = 5000 - parseInt(userData.monto);
+                document.getElementById('inversion').innerHTML = inversion;
+                document.getElementById('resumen').innerHTML = resumen;
             })
-        });
-        console.log(resumen)
-        firebase.database().ref('usuarios/'+userUID).once('value', (snap)=> {
-            let userData = JSON.stringify(snap.val(),null,3);
-            userData = JSON.parse(userData);
-            document.getElementById('monto').innerHTML = userData.monto;
-            let inversion = 5000 - parseInt(userData.monto);
-            document.getElementById('inversion').innerHTML = inversion;
-            document.getElementById('resumen').innerHTML = resumen;
-        })
+        }    
     })
 }
 

@@ -1,0 +1,26 @@
+*{
+    font-family: 'PT Sans', sans-serif;
+}
+.jumbotron{
+    background-color: white
+}
+h1 {
+    /* background-color: white; */
+color: #333;
+}
+p {
+    color: #1f1c1c9d
+}
+button {
+    /* height: 82vh; */
+    /* display: flex;  */
+    /* align-items: center;
+    justify-content: center; */
+    width: 180px;
+    height: 55px;
+    background: transparent;
+    color: black;
+    border: 3px solid #B83434;
+    border-radius: 10px;
+    }
+

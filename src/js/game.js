@@ -101,21 +101,23 @@ const switchLevel = () => {
     })
 }
 const showStocks = () => {
-    let stocks = document.getElementById('stocks');
+    let stocks = document.getElementById('stock');
     stocks.innerHTML = '';
     firebase.database().ref('sectores').on('value',(snapshot)=> {
-        let stocks = JSON.stringify(snapshot.val(),null,3);
-        stocks = JSON.parse(stocks);
-        sectorsName = Object.keys(stocks);
-        console.log(sectorsName)
+        let stocksData = JSON.stringify(snapshot.val(),null,3);
+        stocksData = JSON.parse(stocksData);
+        sectorsName = Object.keys(stocksData);
         sectorsName.forEach(sector => {
-          companiesName = Object.keys(stocks[sector])
+          stocks.innerHTML += `<h1>${sector}</h1>`;
+          companiesName = Object.keys(stocksData[sector])
           companiesName.forEach(company => {
-              console.log(stocks[sector][company])
+              stocks.innerHTML += `<p>${company}</p>`;
+              stocks.innerHTML += `<li>${stocksData[sector][company].cantidad}</li>`;
+              stocks.innerHTML += `<li>${stocksData[sector][company].vfundamental}</li>`;
+              stocks.innerHTML += `<li>${stocksData[sector][company].vmercado}</li>`;
+
           });
           console.log(companiesName)
-        });
-        
-        // document.getElementById('stocks').innerHTML= `${data}`
+        }); 
     })
 }

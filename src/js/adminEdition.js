@@ -13,9 +13,6 @@ document.getElementById('changeStock').addEventListener('click', () => {
         console.log(values)
     })
 })
-
-
-
 const getData = (path) => {
     return new Promise((resolved, reject) => {
         firebase.database().ref(path).on('value', function(snapshot) {
@@ -25,11 +22,6 @@ const getData = (path) => {
         })
     })
 }
-const updateData = (path) => {
-
-}
-
-
 // Cambiando sectores
 const changeSector = () => {
     console.log('cambiando')

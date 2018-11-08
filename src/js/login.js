@@ -24,7 +24,7 @@ profile.on('value', snap => {
     
     var usuario = {
         uid : user.uid,
-        monto: 500000,
+        monto: 5000,
         nivel: 0
     }
     firebase.database().ref("usuarios/" + usuario.uid)

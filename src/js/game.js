@@ -157,7 +157,7 @@ const chargeMyStock = () => {
             let userData = JSON.stringify(snap.val(),null,3);
             userData = JSON.parse(userData);
             document.getElementById('monto').innerHTML = userData.monto;
-            let inversion = 500000 - parseInt(userData.monto);
+            let inversion = 5000 - parseInt(userData.monto);
             document.getElementById('inversion').innerHTML = inversion;
             document.getElementById('resumen').innerHTML = resumen;
         })

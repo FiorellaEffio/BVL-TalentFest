@@ -10,6 +10,7 @@ window.onload = () =>{
        }
        userUID = user.uid;
        switchLevel();
+       chargeMyStock();
    })
 }
 // termina de mostrarme la data del usuario y almacena el uid
@@ -101,27 +102,54 @@ const switchLevel = () => {
     })
 }
 const showStocks = () => {
-    let stocks = document.getElementById('stock');
-    stocks.innerHTML = '';
-    firebase.database().ref('sectores').on('value',(snapshot)=> {
-        let stocksData = JSON.stringify(snapshot.val(),null,3);
-        stocksData = JSON.parse(stocksData);
-        sectorsName = Object.keys(stocksData);
-        sectorsName.forEach(sector => {
-          stocks.innerHTML += `<h1>${sector}</h1>`;
-          companiesName = Object.keys(stocksData[sector])
-          companiesName.forEach(company => {
-              console.log(typeof(sector))
-              stocks.innerHTML += `<p>${company}</p>`;
-              stocks.innerHTML += `<li>${stocksData[sector][company].vfundamental}</li>`;
-              stocks.innerHTML += `<li>${stocksData[sector][company].vmercado}</li>`;
-              stocks.innerHTML += `<li>${stocksData[sector][company].cantidad}</li>
-              <input type="text" id="${sector}${company}"/>
-              <button onclick="buyStock('${sector}','${company}', '${sector}'+'${company}', '${stocksData[sector][company].vmercado}')">Compra</button>`;
-          });
-          console.log(companiesName);
+    // stocks.innerHTML = '';
 
-        }); 
+}
+let stocks = document.getElementById('stock');
+let myStock = document.getElementById('myStock');
+// acciones generales
+firebase.database().ref('sectores').on('value',(snapshot)=> {
+    stocks.innerHTML = '';
+    let stocksData = JSON.stringify(snapshot.val(),null,3);
+    stocksData = JSON.parse(stocksData);
+    sectorsName = Object.keys(stocksData);
+    sectorsName.forEach(sector => {
+      stocks.innerHTML += `<h1>${sector}</h1>`;
+      companiesName = Object.keys(stocksData[sector])
+      companiesName.forEach(company => {
+          console.log(typeof(sector))
+          stocks.innerHTML += `<p>${company}</p>`;
+          stocks.innerHTML += `<li>${stocksData[sector][company].vfundamental}</li>`;
+          stocks.innerHTML += `<li>${stocksData[sector][company].vmercado}</li>`;
+          stocks.innerHTML += `<li>${stocksData[sector][company].cantidad}</li>
+          <input type="text" id="${sector}${company}"/>
+          <button onclick="buyStock('${sector}','${company}', '${sector}'+'${company}', '${stocksData[sector][company].vmercado}')">Compra</button>`;
+      });
+      console.log(companiesName);
+
+    }); 
+})
+// mis acciones
+const chargeMyStock = () => {
+    firebase.database().ref('usuarios/'+userUID+'/acciones').on('value',(snapshot)=> {
+        myStock.innerHTML = '';
+        let myStockData = JSON.stringify(snapshot.val(),null,3);
+        myStockData = JSON.parse(myStockData);
+        
+        stocksUID = Object.keys(myStockData);
+        console.log(stocksUID)
+
+        stocksUID.forEach(stockUID => {
+            myStock.innerHTML += `<p>Empresa: ${myStockData[stockUID].company}</p>
+            <p>Cantidad: ${myStockData[stockUID].cantidad}</p>
+            `;
+            // myStock.innerHTML += `<li>${stocksData[sector][company].vfundamental}</li>`;
+            // stocks.innerHTML += `<li>${stocksData[sector][company].vmercado}</li>`;
+            // stocks.innerHTML += `<li>${stocksData[sector][company].cantidad}</li>
+            // <input type="text" id="${sector}${company}"/>
+            // <button onclick="buyStock('${sector}','${company}', '${sector}'+'${company}', '${stocksData[sector][company].vmercado}')">Compra</button>`;
+        });
+
     })
 }
 
@@ -135,17 +163,22 @@ const buyStock = (sector, company, id, vmercado) => {
         let userData = JSON.stringify(snapshot.val(),null,3);
         userData = JSON.parse(userData);
         let lastMonto = userData.monto;
-        let lastInversion = 0;
-        if(userData.inversion) {
-            lastInversion = userData.inversion;
-        }
         userRef.update({
             "monto": lastMonto - stockCount*vmercado,
-            "inversion" : lastInversion + stockCount*vmercado,
+        })
+        firebase.database().ref('usuarios/'+userUID+'/acciones').push({
+            sector: sector,
+            company: company,
+            cantidad: stockCount
         })
     })    
-    
-    
-    
-
+    let stockRef = firebase.database().ref('sectores/'+sector+'/'+company);
+    stockRef.once('value', (snapshot) => {
+        let stockData = JSON.stringify(snapshot.val(),null,3);
+        stockData = JSON.parse(stockData);
+        let lastCantidad = stockData.cantidad;
+        stockRef.update({
+            "cantidad": lastCantidad - stockCount,
+        })
+    })    
 }

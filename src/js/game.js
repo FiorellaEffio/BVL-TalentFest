@@ -4,7 +4,7 @@ let userUID;
 window.onload = () =>{
    firebase.auth().onAuthStateChanged((user)=>{
        if(user) {
-           userImage.innerHTML=`<img src="${user.photoURL}" width="90px" alt="user" class="profile-photo">`;
+           userImage.innerHTML=`<img src="${user.photoURL}" width="35px" alt="user" class="profile-photo">`;
        }
        userUID = user.uid;
        switchLevel();

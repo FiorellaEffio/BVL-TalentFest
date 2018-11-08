@@ -135,10 +135,13 @@ const buyStock = (sector, company, id, vmercado) => {
         let userData = JSON.stringify(snapshot.val(),null,3);
         userData = JSON.parse(userData);
         let lastMonto = userData.monto;
-        console.log(lastMonto)
+        let lastInversion = 0;
+        if(userData.inversion) {
+            lastInversion = userData.inversion;
+        }
         userRef.update({
             "monto": lastMonto - stockCount*vmercado,
-            "inversion" : stockCount*vmercado,
+            "inversion" : lastInversion + stockCount*vmercado,
         })
     })    
     

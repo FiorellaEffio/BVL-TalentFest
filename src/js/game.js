@@ -40,6 +40,15 @@ document.getElementById('to2').addEventListener('click', ()=> {
     })
     switchLevel();
 })
+// PASAR DEL NIVEL 2 AL NIVEL 3
+document.getElementById('to3').addEventListener('click', ()=> {
+    let userRef = firebase.database().ref('usuarios/'+userUID);
+    // escribimos en la base de datos el nickname y aumentamos el nivel
+    userRef.update({
+        "nivel": 3
+    })
+    switchLevel();
+})
 const evaluateLevel = (path) => {
     return new Promise((resolved, reject) => {
         firebase.database().ref(path).on('value', function(snapshot) {
@@ -76,9 +85,27 @@ const switchLevel = () => {
               level2.setAttribute('class', 'show')
               level3.setAttribute('class','hiden')
               break;
+            case 3:
+              //Sentencias ejecutadas cuando el resultado de expresion coincide con valorN
+              console.log('estas en el nivel 2')
+              level0.setAttribute('class', 'hiden')
+              level1.setAttribute('class','hiden')
+              level2.setAttribute('class', 'hiden')
+              level3.setAttribute('class','show')
+              showStocks();
+              break;
             default:
               //Sentencias_def ejecutadas cuando no ocurre una coincidencia con los anteriores casos
               break;
            }
+    })
+}
+const showStocks = () => {
+    let stocks = document.getElementById('stocks');
+    stocks.innerHTML = '';
+    firebase.database().ref('sectores').on('value',(snapshot)=> {
+        let data = JSON.stringify(snapshot.val(),null,3);
+        data = JSON.parse(data);
+        console.log(data)
     })
 }

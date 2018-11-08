@@ -10,13 +10,13 @@ window.onload = () => {
         switchLevel();
         chargeMyStock();
         document.getElementById('click1').addEventListener('click', () => {
-            document.getElementById('mensaje1').innerHTML = 'felicidadddd'
+            document.getElementById('mensaje1').innerHTML = '<h4 style="color:navy">felicidadddd</h4>'
         });
         document.getElementById('click2').addEventListener('click', () => {
-            document.getElementById('mensaje2').innerHTML = 'Yuuuuupiiii'
+            document.getElementById('mensaje2').innerHTML = '<h4 style="color:navy">Yupiiiiii</h4>'
         })
         document.getElementById('click3').addEventListener('click', () => {
-            document.getElementById('mensaje3').innerHTML = 'Estoy listo para ser millonario!'
+            document.getElementById('mensaje3').innerHTML = '<h4 style="color:navy">Estoy listo para ser millonario</h4>!'
         })
     })
 }
@@ -72,7 +72,6 @@ const switchLevel = () => {
         switch (level) {
             case 0:
                 //Sentencias ejecutadas cuando el resultado de expresion coincide con valor1
-                console.log('estas en el nivel 0');
                 level0.setAttribute('class', 'show')
                 level1.setAttribute('class', 'hiden')
                 level2.setAttribute('class', 'hiden')
@@ -80,7 +79,7 @@ const switchLevel = () => {
                 break;
             case 1:
                 //Sentencias ejecutadas cuando el resultado de expresion coincide con valor2
-                console.log('estas en el nivel 1');
+                // console.log('estas en el nivel 1');
                 level0.setAttribute('class', 'hiden')
                 level1.setAttribute('class', 'show')
                 level2.setAttribute('class', 'hiden')
@@ -93,7 +92,7 @@ const switchLevel = () => {
                 break;
             case 2:
                 //Sentencias ejecutadas cuando el resultado de expresion coincide con valorN
-                console.log('estas en el nivel 2')
+                // console.log('estas en el nivel 2')
                 level0.setAttribute('class', 'hiden')
                 level1.setAttribute('class', 'hiden')
                 level2.setAttribute('class', 'show')
@@ -106,7 +105,7 @@ const switchLevel = () => {
                 break;
             case 3:
                 //Sentencias ejecutadas cuando el resultado de expresion coincide con valorN
-                console.log('estas en el nivel 3')
+                // console.log('estas en el nivel 3')
                 level0.setAttribute('class', 'hiden')
                 level1.setAttribute('class', 'hiden')
                 level2.setAttribute('class', 'hiden')
@@ -160,10 +159,10 @@ const chargeMyStock = () => {
         myStockData = JSON.parse(myStockData);
         if (myStockData) {
             stocksUID = Object.keys(myStockData);
-            console.log(stocksUID)
+            // console.log(stocksUID)
             let resumen = 0;
             stocksUID.forEach(stockUID => {
-                console.log(myStockData[stockUID])
+                // console.log(myStockData[stockUID])
                 myStock.innerHTML += `<li class="list-group-item d-flex justify-content-between align-items-center">
                 Empresa: ${myStockData[stockUID].company}
               <span class="badge badge-primary badge-pill">Cantidad: ${myStockData[stockUID].cantidad}</span>
@@ -173,12 +172,12 @@ const chargeMyStock = () => {
                 firebase.database().ref('sectores/' + myStockData[stockUID].sector + '/' + myStockData[stockUID].company).once('value', (snapa) => {
                     let stockdata = JSON.stringify(snapa.val(), null, 3);
                     stockdata = JSON.parse(stockdata);
-                    console.log(stockdata)
+                    // console.log(stockdata)
                     vmercadostock = stockdata.vmercado
                     resumen += stockdata.vmercado * myStockData[stockUID].cantidad;
                 })
             });
-            console.log(resumen)
+            // console.log(resumen)
             firebase.database().ref('usuarios/' + userUID).once('value', (snap) => {
                 let userData = JSON.stringify(snap.val(), null, 3);
                 userData = JSON.parse(userData);
@@ -192,8 +191,8 @@ const chargeMyStock = () => {
 }
 
 const buyStock = (sector, company, id, vmercado) => {
-    console.log(sector);
-    console.log(company);
+    // console.log(sector);
+    // console.log(company);
     let stockCount = (document.getElementById(id).value);
     let userRef = firebase.database().ref('usuarios/' + userUID);
     // escribimos en la base de dnicknameatos el nickname y aumentamos el nivel

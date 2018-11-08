@@ -1,9 +1,11 @@
 *{
     font-family: 'PT Sans', sans-serif;
 }
-.jumbotron{
-    background-color: white
-}
+/* .portada{
+    background-image: url('../img/NIVEL\ 2.png');
+    background-repeat: no-repeat;
+    height: 100vh;
+} */
 h1 {
     /* background-color: white; */
 color: #333;
